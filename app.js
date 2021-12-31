@@ -16,10 +16,31 @@ try {
 }
 })
 
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.findAll({})
+    return res.json(users)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({error: 'Something went wrong'})
+  }
+})
+app.get('/users/:uuid', async (req, res) => {
+  try {
+    const uuid = req.params.uuid
+    const user = await User.findOne({
+      where: {uuid}
+    })
+    return res.json(user)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({error: 'Something went wrong'})
+  }
+})
+
 app.listen(5500, async () => {
   console.log('Server up and running')
- //create database tables based on the models present
-  await sequelize.sync({force: true})
+  await sequelize.authenticate()
 
-  console.log('Database Synced!')
+  console.log('Database Connected!')
 })
