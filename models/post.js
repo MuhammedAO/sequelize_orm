@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       //if you don't provide a foreign key, sequelize will look for 
       //the name of the model + primary key which is Id
-      this.belongsTo(User, {foreignKey: 'userId'})
+      this.belongsTo(User, {foreignKey: 'userId', as: 'user'} )
+    }
+
+    toJSON(){
+      return {...this.get(), id: undefined, userId: undefined}
     }
   };
   Post.init({
