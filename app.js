@@ -53,7 +53,16 @@ try {
 }
 })
 
-
+app.get('/posts', async (req, res) => {
+  try {
+    const post = await Post.findAll({include: 'user'})
+    return res.json(post)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({error: 'Something went wrong'})
+  }
+  })
+  
 
 app.listen(5500, async () => {
   console.log('Server up and running')
